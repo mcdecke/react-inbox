@@ -1,0 +1,26 @@
+{
+  "messages":
+  [
+    {
+      "message": "Default Message",
+      "read": "false",
+      "starred": "fa-star-o",
+      "selected": "unselected",
+      "label": "gschool"
+    },
+    {
+      "message": "Refault Message",
+      "read": "false",
+      "starred": "fa-star",
+      "selected": "selected",
+      "label": "dev"
+    },
+    {
+      "message": "Mefault Message",
+      "read": "true",
+      "starred": "fa-star",
+      "selected": "selected",
+      "label": "personal"
+    }
+  ]
+}
