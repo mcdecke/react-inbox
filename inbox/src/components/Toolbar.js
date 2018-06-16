@@ -9,19 +9,19 @@ class Toolbar extends Component {
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            <span className="badge badge">2</span>
+            <span className="badge" >{this.props.msgCount()}</span>
               unread messages
           </p>
 
           <button className="btn btn-default">
-            <i className="fa fa-minus-square-o"></i>
+            <i className="fa fa-minus-square-o" onClick={this.props.selectAll}></i>
           </button>
 
-          <button className="btn btn-default" onClick={this.onRead}>
+          <button className="btn btn-default" onClick={this.props.markAsRead}>
             Mark As Read
           </button>
 
-          <button className="btn btn-default" onClick={this.onUnread}>
+          <button className="btn btn-default" onClick={this.props.markAsRead} >
             Mark As Unread
           </button>
 
@@ -40,7 +40,7 @@ class Toolbar extends Component {
           </select>
 
           <button className="btn btn-default">
-            <i className="fa fa-trash-o"></i>
+            <i className="fa fa-trash-o" onClick={this.props.deleteMessage}></i>
           </button>
         </div>
       </div>

@@ -15,8 +15,16 @@ constructor(props){
 render() {
     return (
       <div>
-        {this.props.messages.map(({message, starred, read, selected, label}, i) => <Message message={message} starred={starred} read={read} selected={selected} label={label}key={i} />)}
-        {/* { this.props.messages.map((el, idx) => <p key={idx}>{el.message}</p>) } */}
+        {this.props.messages.map((message, i) => <Message message={message}
+        starred={message.starred}
+        read={message.read}
+        selected={message.selected}
+        labels={message.labels}
+        key={i}
+        onStar={this.props.onStar}
+        onCheck={this.props.onCheck}
+          />)}
+
     </div>)
   }
 }
