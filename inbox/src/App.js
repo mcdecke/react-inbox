@@ -24,6 +24,22 @@ constructor(props){
   .filter(m => m.read === false).length
 
 
+  // toggleRead = (readStatus) => {
+  //   console.log(readStatus);
+  //   const messages = [...this.state.messages]
+  //   messages.filter(message => {
+  //     if (message.selected === true && message.read === readStatus) {
+  //       console.log(`Message ${message.id} is unread`);
+  //       message.read = !message.read
+  //     }
+  //   })
+  //   this.setState({
+  //     messages: messages
+  //   })
+  // console.log(messages);
+  // }
+
+
   markAsRead = () => {
     const messages = [...this.state.messages]
     messages.filter(message => {
@@ -86,36 +102,27 @@ constructor(props){
     ]})
   }
 
-  // onStar = (message) => {
-  //
-  //   const messages = this.state.messages
-  //   console.log('star');
-  //
-  //   if(!message.starred || message.starred === undefined ){
-  //     message.starred = true
-  //   } else {
-  //     message.starred = false
-  //   }
-  //
-  //   let index = message.id
-  //   this.setState({messages: [
-  //     ...messages.slice(0, index - 1),
-  //     {...message, starred: message.starred},
-  //     ...messages.slice(index)
-  //   ]})
-  //
-  //   console.log(`message ${message.id}'s star was changed to ${message.starred}`);
-  // }
-
   selectAll = () => {
-    console.log('hi');
+    const messages = [...this.state.messages]
+
+    if(messages.every(m => m.selected === true)){
+      //change box to checked
+      console.log('checked');
+    } else if (!messages.find(m => m.selected === true)) {
+      //changed box to empty
+      console.log('unchecked');
+    } else {
+      console.log('minus');
+    }
+
   }
 
   render() {
     return (
       <div className="App">
-        <Toolbar messages={this.state.messages} msgCount={this.msgCount} msgCounter={this.state.msgCounter} markAsRead={this.markAsRead}
-          markAsUnread={this.markAsUnread}
+        <Toolbar messages={this.state.messages} msgCount={this.msgCount} markAsRead={this.markAsRead}
+        markAsUnread={this.markAsUnread}
+        toggleRead={this.toggleRead}
         deleteMessage={this.deleteMessage} selectAll={this.selectAll}
         />
         <Messages

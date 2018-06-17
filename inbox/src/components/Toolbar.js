@@ -5,6 +5,11 @@ import Message from './Message'
 class Toolbar extends Component {
 
   render () {
+
+    let boxClass = this.props.messageCount > 0 ?   'fa-minus-square-o' : 'fa-square-o'
+
+
+
     return (
       <div className="row toolbar">
         <div className="col-md-12">
@@ -14,7 +19,7 @@ class Toolbar extends Component {
           </p>
 
           <button className="btn btn-default">
-            <i className="fa fa-minus-square-o" onClick={this.props.selectAll}></i>
+            <i className={`fa ${boxClass}`} onClick={this.props.selectAll(this.props.msgCount())}></i>
           </button>
 
           <button className="btn btn-default" onClick={this.props.markAsRead}>
