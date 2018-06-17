@@ -21,7 +21,7 @@ class Toolbar extends Component {
             Mark As Read
           </button>
 
-          <button className="btn btn-default" onClick={this.props.markAsRead} >
+          <button className="btn btn-default" onClick={this.props.markAsUnread} >
             Mark As Unread
           </button>
 

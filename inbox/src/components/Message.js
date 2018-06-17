@@ -16,7 +16,7 @@ render() {
             />
           </div>
           <div className="col-xs-2">
-            <i className={`star fa ${starredClass}`} onClick={() => onStar(message, 'starred')}></i>
+            <i className={`star fa ${starredClass}`} onClick={() => onCheck(message, 'starred')}></i>
           </div>
         </div>
       </div>
