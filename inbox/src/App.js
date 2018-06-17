@@ -104,17 +104,20 @@ constructor(props){
 
   selectAll = () => {
     const messages = [...this.state.messages]
-
+    const boxState = ''
     if(messages.every(m => m.selected === true)){
       //change box to checked
       console.log('checked');
+      this.boxState = 'fa-check-square-o'
     } else if (!messages.find(m => m.selected === true)) {
       //changed box to empty
       console.log('unchecked');
+      this.boxState = 'fa-square-o'
     } else {
       console.log('minus');
+      this.boxState = 'fa-minus-square-o'
     }
-
+    return this.boxState
   }
 
   render() {
