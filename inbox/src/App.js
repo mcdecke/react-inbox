@@ -16,29 +16,9 @@ constructor(props){
         messages: json
       }
     }
-    // componentDidMount = async () => {
-    //     let messages = await json
-    //     this.setState({messages: messages})
-    // }
+
   msgCount = () => this.state.messages
   .filter(m => m.read === false).length
-
-
-  // toggleRead = (readStatus) => {
-  //   console.log(readStatus);
-  //   const messages = [...this.state.messages]
-  //   messages.filter(message => {
-  //     if (message.selected === true && message.read === readStatus) {
-  //       console.log(`Message ${message.id} is unread`);
-  //       message.read = !message.read
-  //     }
-  //   })
-  //   this.setState({
-  //     messages: messages
-  //   })
-  // console.log(messages);
-  // }
-
 
   markAsRead = () => {
     const messages = [...this.state.messages]
@@ -86,8 +66,6 @@ constructor(props){
 
   onCheck = (message, thing) => {
     const messages = this.state.messages
-    console.log(message[thing]);
-      console.log(thing);
     if(!message[thing] || message[thing] === undefined ){
       message[thing] = true
     } else {
@@ -107,17 +85,42 @@ constructor(props){
     const boxState = ''
     if(messages.every(m => m.selected === true)){
       //change box to checked
-      console.log('checked');
       this.boxState = 'fa-check-square-o'
     } else if (!messages.find(m => m.selected === true)) {
       //changed box to empty
-      console.log('unchecked');
       this.boxState = 'fa-square-o'
     } else {
-      console.log('minus');
       this.boxState = 'fa-minus-square-o'
     }
     return this.boxState
+  }
+
+  addLabel = (label) => {
+    const messages = [...this.state.messages]
+    messages.filter(message => {
+      if (message.selected === true && !message.labels.includes(label)) {
+        console.log(`${label} being added to ${message.labels}`);
+        message.labels.push(label)
+      }
+    })
+    this.setState({
+      messages: messages
+    })
+  }
+
+  removeLabel = (label) => {
+    const messages = [...this.state.messages]
+    messages.filter(message => {
+      if (message.selected === true) {
+        console.log(`${label} being removed from ${message.labels}`);
+        // let fil = message.labels.filter(l => l.label !== label)
+        // console.log(fil);
+        // message.labels = fil
+      }
+    })
+    this.setState({
+      messages: messages
+    })
   }
 
   render() {
@@ -125,8 +128,9 @@ constructor(props){
       <div className="App">
         <Toolbar messages={this.state.messages} msgCount={this.msgCount} markAsRead={this.markAsRead}
         markAsUnread={this.markAsUnread}
-        toggleRead={this.toggleRead}
         deleteMessage={this.deleteMessage} selectAll={this.selectAll}
+        addLabel={this.addLabel}
+        removeLabel={this.removeLabel}
         />
         <Messages
           messages={this.state.messages}
