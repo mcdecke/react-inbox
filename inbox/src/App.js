@@ -5,15 +5,23 @@ import './index.css';
 import Message from './components/Message'
 import Messages from './components/Messages'
 import Toolbar from './components/Toolbar'
-import json from './data.json'
+// import json2 from './data.json'
 
 class App extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      messages: json
+      messages: []
     }
+  }
+
+  async componentDidMount() {
+    const response = await fetch('http://localhost:8082/api/messages')
+    let json = await response.json()
+    // console.log(json._embedded.messages);
+
+    this.setState({messages: json._embedded.messages})
   }
 
   composeMessage = (e) => {
@@ -35,10 +43,14 @@ class App extends Component {
     console.log(messages);
     this.setState({messages: messages})
   }
-
-  msgCount = () => this.state.messages
-  .filter(message => message.read == false).length
-
+//
+  msgCount = () => {
+      console.log(this.state.messages
+          .filter(message => message.read == false).length);
+    return this.state.messages.filter(message => message.read == false).length
+  }
+//
+//
   markAsRead = () => {
     const messages = this.state.messages.map(
       message => message.selected
@@ -50,7 +62,7 @@ class App extends Component {
 
     this.setState({messages: messages})
   }
-
+//
   markAsUnread = () => {
     const messages = this.state.messages.map(
       message => message.selected
@@ -62,14 +74,14 @@ class App extends Component {
 
     this.setState({messages: messages})
   }
-
+//
   deleteMessage = () => {
     const messages = this.state.messages.filter(message => !message.selected)
     console.log('delete left these messages:', messages);
 
     this.setState({messages: messages})
   }
-
+//
   onStar = (mess) => {
     let messages = [...this.state.messages]
     let x = messages.find(message => message.id === mess.id)
@@ -87,7 +99,7 @@ class App extends Component {
 
     this.setState({messages: newMessages})
   }
-
+//
   onSelect = (mess) => {
 
     let messages = [...this.state.messages]
@@ -106,7 +118,7 @@ class App extends Component {
 
     this.setState({messages: newMessages})
   }
-
+//
   selectAll = () => {
   //   //  let newMessages
   //   const messages = this.state.messages.map(
@@ -126,11 +138,11 @@ class App extends Component {
   //   console.log(this.messages);
   //   this.setState({messages: messages})
   }
-
-
+//
+//
 selectAllChecker = () => {
 
-  const messages = [...this.state.messages]
+  let messages = [...this.state.messages]
 
     let x = messages.every(message => message.selected)
     let y = messages.some(message => message.selected)
@@ -168,8 +180,14 @@ render() {
   return (<div className="App">
     <Toolbar messages={this.state.messages}
       msgCount={this.msgCount}
-      markAsRead={this.markAsRead} markAsUnread={this.markAsUnread}
-       composeMessage={this.composeMessage} deleteMessage={this.deleteMessage} selectAll={this.selectAll} selectAllChecker={this.selectAllChecker} addLabel={this.addLabel} removeLabel={this.removeLabel}/>
+      markAsRead={this.markAsRead}
+      markAsUnread={this.markAsUnread}
+      composeMessage={this.composeMessage}
+      deleteMessage={this.deleteMessage}
+      selectAll={this.selectAll}
+      selectAllChecker={this.selectAllChecker}
+      addLabel={this.addLabel}
+      removeLabel={this.removeLabel}/>
     <Messages messages={this.state.messages} onStar={this.onStar} onSelect={this.onSelect}/>
   </div>);
 }
