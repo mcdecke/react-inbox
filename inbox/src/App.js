@@ -44,14 +44,14 @@ class App extends Component {
   }
 
   deleteMessage = () => {
-      console.log('hi');
     const messages = this.state.messages.filter(message => !message.selected)
-    console.log(messages);
+    console.log('delete left these messages:', messages);
+
     this.setState({messages: messages})
   }
 
   onStar = (mess) => {
-    let messages = this.state.messages
+    let messages = [...this.state.messages]
     let x = messages.find(message => message.id === mess.id)
 
     if(!x.starred) {
@@ -70,7 +70,7 @@ class App extends Component {
 
   onSelect = (mess) => {
 
-    let messages = this.state.messages
+    let messages = [...this.state.messages]
     let x = messages.find(message => message.id === mess.id)
 
     if(!x.selected) {
@@ -88,13 +88,10 @@ class App extends Component {
   }
 
   selectAll = () => {
-  //
-  //   // let newMessages
-  //
+  //   //  let newMessages
   //   const messages = this.state.messages.map(
   //       message => {
   //         console.log(message);
-  //
   //   if(!message.selected) {
   //     message.selected = true
   //   } else {
@@ -102,13 +99,10 @@ class App extends Component {
   //   }
   //   console.log(message);
   // })
-  //
   //   // newMessages = [...messages.slice(0, message.id - 1),
   //   //     message,
   //   //     ...messages.slice(message.id)
   //   //   ]
-  //
-  //
   //   console.log(this.messages);
   //   this.setState({messages: messages})
   }
@@ -116,7 +110,7 @@ class App extends Component {
 
 selectAllChecker = () => {
 
-  const messages = this.state.messages
+  const messages = [...this.state.messages]
 
     let x = messages.every(message => message.selected)
     let y = messages.some(message => message.selected)
@@ -126,8 +120,6 @@ selectAllChecker = () => {
     } else if(y === true){
       return 'fa-minus-square-o'
     } else return 'fa-square-o'
-
-
 }
 
 addLabel = (label) => {
@@ -144,9 +136,9 @@ addLabel = (label) => {
 removeLabel = (label) => {
   const messages = [...this.state.messages]
   messages.filter(message => {
-    if (message.selected === true) {
-      console.log(`${label} being removed from ${message.labels}`);
-
+    if ((message.labels.includes(label) && message.selected)) {
+      let z = message.labels.filter(x => x !== label)
+      message.labels = z.sort()
     }
   })
   this.setState({messages: messages})
