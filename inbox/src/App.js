@@ -17,7 +17,7 @@ class App extends Component {
   }
 
   msgCount = () => this.state.messages
-  .filter(m => m.read == false).length
+  .filter(message => message.read == false).length
 
   markAsRead = () => {
     const messages = this.state.messages.map(
@@ -44,8 +44,9 @@ class App extends Component {
   }
 
   deleteMessage = () => {
+      console.log('hi');
     const messages = this.state.messages.filter(message => !message.selected)
-
+    console.log(messages);
     this.setState({messages: messages})
   }
 
@@ -86,27 +87,48 @@ class App extends Component {
     this.setState({messages: newMessages})
   }
 
-// selectAll = () => {
-//
-//   const messages = [...this.state.messages]
-//
-//   const boxState = 'fa-minus-square-o'
-//
-//   console.log(messages);
-//
-//   if (messages.map(message => {
-//     console.log(message);
-//     if (message.selected === true)
-//     {
-//     change box to checked
-//     this.boxState = 'fa-check-square-o'
-//   } else if (messages.map(m => m.selected === true)) {
-//     changed box to empty
-//     this.boxState = 'fa-square-o'
-//     }
-//   }))
-//   return this.boxState
-// }
+  selectAll = () => {
+  //
+  //   // let newMessages
+  //
+  //   const messages = this.state.messages.map(
+  //       message => {
+  //         console.log(message);
+  //
+  //   if(!message.selected) {
+  //     message.selected = true
+  //   } else {
+  //     message.selected = true
+  //   }
+  //   console.log(message);
+  // })
+  //
+  //   // newMessages = [...messages.slice(0, message.id - 1),
+  //   //     message,
+  //   //     ...messages.slice(message.id)
+  //   //   ]
+  //
+  //
+  //   console.log(this.messages);
+  //   this.setState({messages: messages})
+  }
+
+
+selectAllChecker = () => {
+
+  const messages = this.state.messages
+
+    let x = messages.every(message => message.selected)
+    let y = messages.some(message => message.selected)
+
+    if(x === true) {
+      return 'fa-check-square-o'
+    } else if(y === true){
+      return 'fa-minus-square-o'
+    } else return 'fa-square-o'
+
+
+}
 
 addLabel = (label) => {
   const messages = [...this.state.messages]
@@ -134,7 +156,7 @@ render() {
   return (<div className="App">
     <Toolbar messages={this.state.messages}
       msgCount={this.msgCount}
-      markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} deleteMessage={this.deleteMessage} selectAll={this.selectAll} addLabel={this.addLabel} removeLabel={this.removeLabel}/>
+      markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} deleteMessage={this.deleteMessage} selectAll={this.selectAll} selectAllChecker={this.selectAllChecker} addLabel={this.addLabel} removeLabel={this.removeLabel}/>
     <Messages messages={this.state.messages} onStar={this.onStar} onSelect={this.onSelect}/>
   </div>);
 }

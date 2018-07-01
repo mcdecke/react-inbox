@@ -7,6 +7,8 @@ const Message = ({message, selected, read, starred, onStar, onSelect, labels}) =
   let starredClass = starred ? 'fa-star' : 'fa-star-o'
   let labelClass = labels ? labels : []
 
+  console.log(selectedClass);
+
     return (
     <div className={`row message ${selectedClass} ${readClass}`} >
       <div className="col-xs-1">

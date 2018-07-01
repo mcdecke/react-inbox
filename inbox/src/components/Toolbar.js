@@ -29,8 +29,8 @@ class Toolbar extends Component {
              unread messages
           </p>
 
-          <button className="btn btn-default">
-            <i className={`fa `}></i>
+          <button className="btn btn-default" onClick={this.props.selectAll}>
+            <i className={`fa ${this.props.selectAllChecker()}`}></i>
           </button>
 
           <button className="btn btn-default" onClick={this.props.markAsRead}>
@@ -55,8 +55,8 @@ class Toolbar extends Component {
             <option value="gschool">gschool</option>
           </select>
 
-          <button className="btn btn-default">
-            <i className="fa fa-trash-o" onClick={this.props.deleteMessage}></i>
+          <button className="btn btn-default" onClick={this.props.deleteMessage}>
+            <i className="fa fa-trash-o" ></i>
           </button>
         </div>
       </div>
