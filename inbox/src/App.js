@@ -16,6 +16,14 @@ class App extends Component {
     }
   }
 
+  composeMessage = (e) => {
+    e.preventDefault()
+    let subj = document.getElementById('subject').value
+    let body = document.getElementById('body').value
+    console.log('subject', subj, 'body', body);
+    // let newMessage =
+  }
+
   msgCount = () => this.state.messages
   .filter(message => message.read == false).length
 
@@ -122,6 +130,16 @@ selectAllChecker = () => {
     } else return 'fa-square-o'
 }
 
+showMessage = () => {
+  console.log('hi');
+  // console.log(hide);
+    // if(hide === false) {
+    //   return 'hidden'
+    // } else{
+    //   return ''
+    // }
+}
+
 addLabel = (label) => {
   const messages = [...this.state.messages]
   messages.filter(message => {
@@ -148,7 +166,8 @@ render() {
   return (<div className="App">
     <Toolbar messages={this.state.messages}
       msgCount={this.msgCount}
-      markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} deleteMessage={this.deleteMessage} selectAll={this.selectAll} selectAllChecker={this.selectAllChecker} addLabel={this.addLabel} removeLabel={this.removeLabel}/>
+      markAsRead={this.markAsRead} markAsUnread={this.markAsUnread}
+       composeMessage={this.composeMessage} showMessage={this.showMessage} deleteMessage={this.deleteMessage} selectAll={this.selectAll} selectAllChecker={this.selectAllChecker} addLabel={this.addLabel} removeLabel={this.removeLabel}/>
     <Messages messages={this.state.messages} onStar={this.onStar} onSelect={this.onSelect}/>
   </div>);
 }
