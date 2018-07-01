@@ -23,12 +23,12 @@ class Toolbar extends Component {
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            <span className="badge" >{this.props.msgCount()}</span>
+            <span className="badge" >{}</span>
               unread messages
           </p>
 
           <button className="btn btn-default">
-            <i className={`fa ${this.props.selectAll()}`} onClick={this.props.msgCount}></i>
+            <i className={`fa `} onClick={this.props.msgCount}></i>
           </button>
 
           <button className="btn btn-default" onClick={this.props.markAsRead}>

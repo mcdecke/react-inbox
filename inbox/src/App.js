@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 // import './App.css';
 import './index.css';
@@ -7,139 +7,152 @@ import Messages from './components/Messages'
 import Toolbar from './components/Toolbar'
 import json from './data.json'
 
-
 class App extends Component {
 
-constructor(props){
-  super(props)
+  constructor(props) {
+    super(props)
     this.state = {
-        messages: json
-      }
+      messages: json
     }
+  }
 
-  msgCount = () => this.state.messages
-  .filter(m => m.read === false).length
+  // msgCount = () => this.state.messages
+  // .filter(m => m.read == false).length
 
   markAsRead = () => {
-    const messages = [...this.state.messages]
-    messages.filter(message => {
-      if (message.selected === true && message.read === false) {
-        console.log(`Message ${message.id} is unread`);
-        message.read = true
+    const messages = this.state.messages.map(
+      message => message.selected
+      ? {
+        ...message,
+        read: true
       }
-    })
-    this.setState({
-      messages: messages
-    })
-  console.log(messages);
+      : message)
+
+    this.setState({messages: messages})
   }
 
   markAsUnread = () => {
-    const messages = [...this.state.messages]
-    messages.filter(message => {
-      if (message.selected === true && message.read === true) {
-        console.log(`Message ${message.id} is read`);
-        message.read = false
+    const messages = this.state.messages.map(
+      message => message.selected
+      ? {
+        ...message,
+        read: false
       }
-    })
-    this.setState({
-      messages: messages
-    })
-  console.log(messages);
+      : message)
+
+    this.setState({messages: messages})
   }
 
   deleteMessage = () => {
-    const messages = [...this.state.messages]
-    console.log(messages);
-    const filtered = messages.filter(m => m.selected !== true)
-    console.log(filtered);
-    if (filtered == true) {
-      this.setState({
-        messages: []
-      })
-    } else {
-      this.setState({
-        messages: filtered
-        })
-      }
+    const messages = this.state.messages.filter(message => !message.selected)
+
+    this.setState({messages: messages})
+  }
+
+  onStar = () => {
+    // console.log('hi');
+    const messages = this.state.messages.map(message => {
+      console.log('message.starred', message.starred);
+      message.starred = !message.starred
+    })
+  }
+
+  // onSelect = () => {
+  //   console.log('hi');
+  //   const messages = this.state.messages.map(message => {
+  //     console.log(message.selected);
+  //     message.selected = !message.selected
+  //   })
+
+  onSelect = (mess) => {
+
+    console.log(mess);
+    let messages = this.state.messages
+
+    let x = messages.find(message => message.id === mess.id)
+    console.log(x);
+    x.selected = true
+
+    let newMessages = [...messages.slice(0, x.id - 1),
+      x,
+      ...messages.slice(x.id)
+    ]
+
+    console.log(newMessages);
+
+    this.setState({messages: newMessages})
+  }
+
+//   console.log(thing);
+//   if (message[thing] === true) {
+//     { ...message, `${thing}`: false }
+//      message[thing] = false
+//   } else if(message[thing] === undefined || message[thing] === false){
+//      message[thing] = true
+//     { ...message, `${thing}`: true }
+//   }
+// })
+//   console.log(messages);
+//
+//   this.setState({
+//     messages: messages
+//   })
+// }
+
+// selectAll = () => {
+//
+//   const messages = [...this.state.messages]
+//
+//   const boxState = 'fa-minus-square-o'
+//
+//   console.log(messages);
+//
+//   if (messages.map(message => {
+//     console.log(message);
+//     if (message.selected === true)
+//     {
+//     change box to checked
+//     this.boxState = 'fa-check-square-o'
+//   } else if (messages.map(m => m.selected === true)) {
+//     changed box to empty
+//     this.boxState = 'fa-square-o'
+//     }
+//   }))
+//   return this.boxState
+// }
+
+addLabel = (label) => {
+  const messages = [...this.state.messages]
+  messages.filter(message => {
+    if (message.selected === true && !message.labels.includes(label)) {
+      console.log(`${label} being added to ${message.labels}`);
+      message.labels.push(label)
     }
+  })
+  this.setState({messages: messages})
+}
 
-  onCheck = (message, thing) => {
-    const messages = this.state.messages
-    if(!message[thing] || message[thing] === undefined ){
-      message[thing] = true
-    } else {
-      message[thing] = false
+removeLabel = (label) => {
+  const messages = [...this.state.messages]
+  messages.filter(message => {
+    if (message.selected === true) {
+      console.log(`${label} being removed from ${message.labels}`);
+      // let fil = message.labels.filter(l => l.label !== label)
+      // console.log(fil);
+      // message.labels = fil
     }
+  })
+  this.setState({messages: messages})
+}
 
-    let index = message.id
-    this.setState({messages: [
-      ...messages.slice(0, index - 1),
-      {...message, [thing]: message[thing]},
-      ...messages.slice(index)
-    ]})
-  }
-
-  selectAll = () => {
-    const messages = [...this.state.messages]
-    const boxState = ''
-    if(messages.every(m => m.selected === true)){
-      //change box to checked
-      this.boxState = 'fa-check-square-o'
-    } else if (!messages.find(m => m.selected === true)) {
-      //changed box to empty
-      this.boxState = 'fa-square-o'
-    } else {
-      this.boxState = 'fa-minus-square-o'
-    }
-    return this.boxState
-  }
-
-  addLabel = (label) => {
-    const messages = [...this.state.messages]
-    messages.filter(message => {
-      if (message.selected === true && !message.labels.includes(label)) {
-        console.log(`${label} being added to ${message.labels}`);
-        message.labels.push(label)
-      }
-    })
-    this.setState({
-      messages: messages
-    })
-  }
-
-  removeLabel = (label) => {
-    const messages = [...this.state.messages]
-    messages.filter(message => {
-      if (message.selected === true) {
-        console.log(`${label} being removed from ${message.labels}`);
-        // let fil = message.labels.filter(l => l.label !== label)
-        // console.log(fil);
-        // message.labels = fil
-      }
-    })
-    this.setState({
-      messages: messages
-    })
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <Toolbar messages={this.state.messages} msgCount={this.msgCount} markAsRead={this.markAsRead}
-        markAsUnread={this.markAsUnread}
-        deleteMessage={this.deleteMessage} selectAll={this.selectAll}
-        addLabel={this.addLabel}
-        removeLabel={this.removeLabel}
-        />
-        <Messages
-          messages={this.state.messages}
-          onStar={this.onStar}
-          onCheck={this.onCheck}
-        />
-      </div>
-    );
-  }
+render() {
+  return (<div className="App">
+    <Toolbar messages={this.state.messages}
+      // msgCount={this.msgCount}
+      markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} deleteMessage={this.deleteMessage} selectAll={this.selectAll} addLabel={this.addLabel} removeLabel={this.removeLabel}/>
+    <Messages messages={this.state.messages} onStar={this.onStar} onSelect={this.onSelect}/>
+  </div>);
+}
 }
 
 export default App;
