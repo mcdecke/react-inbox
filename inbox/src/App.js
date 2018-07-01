@@ -16,8 +16,8 @@ class App extends Component {
     }
   }
 
-  // msgCount = () => this.state.messages
-  // .filter(m => m.read == false).length
+  msgCount = () => this.state.messages
+  .filter(m => m.read == false).length
 
   markAsRead = () => {
     const messages = this.state.messages.map(
@@ -49,55 +49,42 @@ class App extends Component {
     this.setState({messages: messages})
   }
 
-  onStar = () => {
-    // console.log('hi');
-    const messages = this.state.messages.map(message => {
-      console.log('message.starred', message.starred);
-      message.starred = !message.starred
-    })
-  }
-
-  // onSelect = () => {
-  //   console.log('hi');
-  //   const messages = this.state.messages.map(message => {
-  //     console.log(message.selected);
-  //     message.selected = !message.selected
-  //   })
-
-  onSelect = (mess) => {
-
-    console.log(mess);
+  onStar = (mess) => {
     let messages = this.state.messages
-
     let x = messages.find(message => message.id === mess.id)
-    console.log(x);
-    x.selected = true
+
+    if(!x.starred) {
+      x.starred = true
+    } else {
+      x.starred = !x.starred
+    }
 
     let newMessages = [...messages.slice(0, x.id - 1),
       x,
       ...messages.slice(x.id)
     ]
 
-    console.log(newMessages);
-
     this.setState({messages: newMessages})
   }
 
-//   console.log(thing);
-//   if (message[thing] === true) {
-//     { ...message, `${thing}`: false }
-//      message[thing] = false
-//   } else if(message[thing] === undefined || message[thing] === false){
-//      message[thing] = true
-//     { ...message, `${thing}`: true }
-//   }
-// })
-//   console.log(messages);
-//
-//   this.setState({
-//     messages: messages
-//   })
-// }
+  onSelect = (mess) => {
+
+    let messages = this.state.messages
+    let x = messages.find(message => message.id === mess.id)
+
+    if(!x.selected) {
+      x.selected = true
+    } else {
+      x.selected = !x.selected
+    }
+
+    let newMessages = [...messages.slice(0, x.id - 1),
+        x,
+        ...messages.slice(x.id)
+      ]
+
+    this.setState({messages: newMessages})
+  }
 
 // selectAll = () => {
 //
@@ -125,8 +112,8 @@ addLabel = (label) => {
   const messages = [...this.state.messages]
   messages.filter(message => {
     if (message.selected === true && !message.labels.includes(label)) {
-      console.log(`${label} being added to ${message.labels}`);
       message.labels.push(label)
+      message.labels = message.labels.sort()
     }
   })
   this.setState({messages: messages})
@@ -137,9 +124,7 @@ removeLabel = (label) => {
   messages.filter(message => {
     if (message.selected === true) {
       console.log(`${label} being removed from ${message.labels}`);
-      // let fil = message.labels.filter(l => l.label !== label)
-      // console.log(fil);
-      // message.labels = fil
+
     }
   })
   this.setState({messages: messages})
@@ -148,7 +133,7 @@ removeLabel = (label) => {
 render() {
   return (<div className="App">
     <Toolbar messages={this.state.messages}
-      // msgCount={this.msgCount}
+      msgCount={this.msgCount}
       markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} deleteMessage={this.deleteMessage} selectAll={this.selectAll} addLabel={this.addLabel} removeLabel={this.removeLabel}/>
     <Messages messages={this.state.messages} onStar={this.onStar} onSelect={this.onSelect}/>
   </div>);

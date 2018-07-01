@@ -14,11 +14,9 @@ class Messages extends Component {
 //
 
 render() {
-console.log(this.props.messages);
     return (
       <div>
         {this.props.messages.map((message, i) => {
-          console.log(message)
           return(
           <Message message={message}
           starred={message.starred}
